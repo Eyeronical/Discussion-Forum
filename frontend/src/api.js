@@ -1,0 +1,9 @@
+const API = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+export async function fetchPosts() { const r = await fetch(`${API}/posts`); return r.json() }
+export async function createPost(payload, token) { const r = await fetch(`${API}/posts`, { method:'POST', headers:{'content-type':'application/json', ...(token?{authorization:`Bearer ${token}`}: {})}, body:JSON.stringify(payload)}); return r.json() }
+export async function getPost(id) { const r = await fetch(`${API}/posts/${id}`); return r.json() }
+export async function replyPost(id, payload, token) { const r = await fetch(`${API}/posts/${id}/reply`, { method:'POST', headers:{'content-type':'application/json', ...(token?{authorization:`Bearer ${token}`}: {})}, body:JSON.stringify(payload)}); return r.json() }
+export async function upvote(id) { const r = await fetch(`${API}/posts/${id}/upvote`, { method:'POST'}); return r.json() }
+export async function markAnswered(id, token) { const r = await fetch(`${API}/posts/${id}/answer`, { method:'POST', headers: { ...(token?{authorization:`Bearer ${token}`}: {}) } }); return r.json() }
+export async function suggest(text) { const r = await fetch(`${API}/suggest`, { method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify({ text })}); return r.json() }
+export async function summarize(id) { const r = await fetch(`${API}/posts/${id}/summarize`, { method:'POST'}); return r.json() }
